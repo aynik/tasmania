@@ -1,0 +1,53 @@
+{
+    "name": "tasmania",
+    "version": "0.0.2",
+    "description": "A typed action-based state machine",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "scripts": {
+        "lint": "eslint './src/**/*.{js,ts}'",
+        "test": "jest",
+        "test:watch": "jest --watchAll",
+        "build": "tsc",
+        "watch": "tsc -w"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aynik/tasmania.git"
+    },
+    "keywords": [
+        "TypeScript",
+        "State Machine"
+    ],
+    "author": {
+        "name": "aynik",
+        "email": "aynik@protonmail.com"
+    },
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/aynik/tasmania/issues"
+    },
+    "homepage": "https://github.com/aynik/tasmania#readme",
+    "devDependencies": {
+        "@types/jest": "25.2.1",
+        "@types/node": "12.12.20",
+        "@typescript-eslint/eslint-plugin": "2.27.0",
+        "@typescript-eslint/parser": "2.27.0",
+        "eslint": "6.8.0",
+        "eslint-config-prettier": "6.10.1",
+        "eslint-plugin-prettier": "3.1.2",
+        "jest": "25.3.0",
+        "prettier": "2.0.4",
+        "ts-jest": "25.3.1",
+        "typescript": "3.8.3"
+    },
+    "files": [
+        "dist/**/*"
+    ],
+    "dependencies": {},
+    "prettier": {
+        "trailingComma": "all",
+        "tabWidth": 4,
+        "singleQuote": true
+    }
+}
