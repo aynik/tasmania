@@ -1,15 +1,4 @@
-# tasmania 
-
-![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/aynik/tasmania.svg)
-![GitHub repo size](https://img.shields.io/github/repo-size/aynik/tasmania.svg)
-![GitHub last commit](https://img.shields.io/github/last-commit/aynik/tasmania.svg)
-
-A strongly typed state machine
-
-## Usage
-
-```typescript
-import { createReducer } from 'tasmania';
+import { createReducer } from '..';
 
 enum State {
     SOLID = 'SOLID',
@@ -97,4 +86,3 @@ function run() {
 }
 
 run();
-```

@@ -1,4 +1,4 @@
-import { createReducer, States } from '.';
+import { createReducer } from '.';
 
 describe('createReducer', () => {
     it('calls the next state', async () => {
@@ -7,23 +7,19 @@ describe('createReducer', () => {
             A = 'A',
             B = 'B',
         }
-        enum transition {
-            CALL = 'CALL',
-        }
-        const transitions = {
-            [state.A]: {
-                [transition.CALL]: state.B,
+        const reduce = createReducer<
+            {
+                [state.A]: state.B;
+                [state.B]: null;
             },
-            [state.B]: null,
-        };
-        const states: States<typeof transitions, void> = {
-            [state.A]: async () => {
-                return { type: transition.CALL };
+            null
+        >({
+            [state.A]: () => {
+                return { type: state.B, payload: null };
             },
             [state.B]: nextState,
-        };
-        const reduce = createReducer(transitions, states);
-        await reduce({ type: state.A });
+        });
+        reduce({ type: state.A, payload: null });
         expect(nextState).toHaveBeenCalled();
     });
 
@@ -34,29 +30,23 @@ describe('createReducer', () => {
             B = 'B',
             END = 'END',
         }
-        enum transition {
-            CALL = 'CALL',
-        }
-        const transitions = {
-            [state.A]: {
-                [transition.CALL]: state.B,
+        const reduce = createReducer<
+            {
+                [state.A]: state.B;
+                [state.B]: state.END;
+                [state.END]: null;
             },
-            [state.B]: {
-                [transition.CALL]: state.END,
+            { ended: boolean }
+        >({
+            [state.A]: () => {
+                return { type: state.B, payload: { ended: false } };
             },
-            [state.END]: null,
-        };
-        const states: States<typeof transitions, { ended: boolean }> = {
-            [state.A]: async () => {
-                return { type: transition.CALL };
-            },
-            [state.B]: async () => {
-                return { type: transition.CALL, payload: { ended: true } };
+            [state.B]: () => {
+                return { type: state.END, payload: { ended: true } };
             },
             [state.END]: endState,
-        };
-        const reduce = createReducer(transitions, states);
-        await reduce({ type: state.A });
+        });
+        reduce({ type: state.A, payload: { ended: false } });
         expect(endState).toHaveBeenCalledWith({ ended: true });
     });
 });

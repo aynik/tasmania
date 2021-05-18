@@ -1,36 +1,24 @@
-export type States<T, P> = {
-    [K in keyof T]: (
-        payload?: P,
-    ) => Promise<{
-        type: keyof T[K];
-        payload?: P;
-    } | void>;
+export type Transitions<T, P> = {
+    [K in keyof Partial<T>]: (
+        payload: P,
+    ) => {
+        type: keyof T & T[K];
+        payload: P;
+    } | void;
 };
 
-export function createReducer<T, P>(transitions: T, states: States<T, P>) {
-    return async function reduce({
+export function createReducer<T, P>(transitions: Transitions<T, P>) {
+    return function reduce({
         type: stateType,
         payload,
     }: {
         type: keyof T;
-        payload?: P;
-    }): Promise<void> {
-        const nextTransition = await states[stateType](payload);
+        payload: P;
+    }): { type: keyof T; payload: P } | P | void {
+        const nextTransition = transitions[stateType](payload);
         if (!nextTransition) {
-            return;
+            return payload;
         }
-        const {
-            type: transitionType,
-            payload: nextPayload,
-        }: {
-            type: keyof T[keyof T];
-            payload?: P;
-        } = nextTransition;
-        return reduce({
-            type: (transitions[stateType][
-                transitionType
-            ] as unknown) as keyof T,
-            payload: nextPayload,
-        });
+        return reduce(nextTransition);
     };
 }
