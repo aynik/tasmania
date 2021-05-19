@@ -1,24 +1,27 @@
-export type Transitions<T, P> = {
+export type Transitions<T, D> = {
   [K in keyof Partial<T>]: (
-    payload: P,
+    data: D,
   ) => {
     type: keyof T & T[K];
-    payload: P;
+    data: D;
   } | void;
 };
 
-export function createReducer<T, P>(transitions: Transitions<T, P>) {
+export function createReducer<T, D>(transitions: Transitions<T, D>) {
   return function reduce({
-    type: stateType,
-    payload,
+    type,
+    data,
   }: {
     type: keyof T;
-    payload: P;
-  }): { type: keyof T; payload: P } | P | void {
-    const nextTransition = transitions[stateType](payload);
-    if (!nextTransition) {
-      return payload;
-    }
-    return reduce(nextTransition);
+    data: D;
+  }):
+    | {
+        type: keyof T;
+        data: D;
+      }
+    | D
+    | void {
+    const nextTransition = transitions[type](data);
+    return nextTransition ? reduce(nextTransition) : data;
   };
 }

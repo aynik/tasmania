@@ -28,58 +28,58 @@ function run() {
     },
     State[]
   >({
-    [State.SOLID]: (payload) => {
+    [State.SOLID]: (data) => {
       if (Math.random() > 0.95) {
         return {
           type: State.ETHEREAL,
-          payload: [...payload, State.ETHEREAL],
+          data: [...data, State.ETHEREAL],
         };
       }
       if (Math.random() > 0.5) {
         return {
           type: State.LIQUID,
-          payload: [...payload, State.LIQUID],
+          data: [...data, State.LIQUID],
         };
       }
       return {
         type: State.GAS,
-        payload: [...payload, State.GAS],
+        data: [...data, State.GAS],
       };
     },
-    [State.LIQUID]: (payload) => {
+    [State.LIQUID]: (data) => {
       if (Math.random() > 0.95) {
         return {
           type: State.ETHEREAL,
-          payload: [...payload, State.ETHEREAL],
+          data: [...data, State.ETHEREAL],
         };
       }
       if (Math.random() > 0.5) {
         return {
           type: State.GAS,
-          payload: [...payload, State.GAS],
+          data: [...data, State.GAS],
         };
       }
       return {
         type: State.SOLID,
-        payload: [...payload, State.SOLID],
+        data: [...data, State.SOLID],
       };
     },
-    [State.GAS]: (payload) => {
+    [State.GAS]: (data) => {
       if (Math.random() > 0.95) {
         return {
           type: State.ETHEREAL,
-          payload: [...payload, State.ETHEREAL],
+          data: [...data, State.ETHEREAL],
         };
       }
       if (Math.random() > 0.5) {
         return {
           type: State.LIQUID,
-          payload: [...payload, State.LIQUID],
+          data: [...data, State.LIQUID],
         };
       }
       return {
         type: State.SOLID,
-        payload: [...payload, State.SOLID],
+        data: [...data, State.SOLID],
       };
     },
     [State.ETHEREAL]: () => {
@@ -91,7 +91,7 @@ function run() {
       type: Object.values(State)[
         Math.floor(Math.random() * (Object.keys(State).length - 1))
       ],
-      payload: [],
+      data: [],
     }),
   );
 }
