@@ -7,7 +7,14 @@ export type Transitions<T, D> = {
   } | void
 }
 
-export function createReducer<T, D>(transitions: Transitions<T, D>) {
+export type State<T, D> = {
+  type: keyof T
+  data: D
+}
+
+export function createReducer<T, D>(
+  transitions: Transitions<T, D>,
+): (state: State<T, D>) => State<T, D> | D | void {
   return function reduce({
     type,
     data,
